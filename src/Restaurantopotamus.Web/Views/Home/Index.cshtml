@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div ng-app="app">
+    <div ng-controller="RestaurantController">
+        <div ng-repeat="res in Restaurants">
+            <restaurant restaurant="res"></restaurant>
+        </div>
+    </div>
+</div>
