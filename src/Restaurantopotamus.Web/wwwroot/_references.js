@@ -5,3 +5,4 @@
 /// <reference path="js/controllers/restaurantcontroller.js" />
 /// <reference path="js/directives/ratingdirective.js" />
 /// <reference path="js/directives/restaurantdirective.js" />
+/// <reference path="js/directives/starratingdirective.js" />

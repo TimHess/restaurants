@@ -23,10 +23,13 @@ textarea {
     padding:5px;
 }
 
-.star-rating {
-  margin: 0;
-  padding: 0;
+.star-rating li {
   display: inline-block;
+  font-weight: bold;
+  list-style-type: none;
+  margin: 0;
+  padding: 0 3px;
+  text-align: center;
 }
 .star-rating .star {
   padding: 1px;

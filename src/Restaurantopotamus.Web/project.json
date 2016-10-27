@@ -2,6 +2,7 @@
   "userSecretsId": "aspnet-Restaurantopotamus-abaea90b-4eea-4882-8422-d643e365a1a4",
 
   "dependencies": {
+    "EntityFramework": "6.1.3",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",
     "Microsoft.AspNetCore.Razor.Tools": {

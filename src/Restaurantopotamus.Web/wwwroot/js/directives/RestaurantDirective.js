@@ -10,7 +10,7 @@ function restaurantDirective() {
         template: '<div class="restaurant">' +
                     '<h3>{{ res.name }}</h3>' +
                     '<h4>{{ res.cuisineType }}</h4>' +
-                    '<rating></rating>' +
+                    '<rating restaurantId="{{ res.id }}"></rating>' +
                    '</div>'
     };
 }
