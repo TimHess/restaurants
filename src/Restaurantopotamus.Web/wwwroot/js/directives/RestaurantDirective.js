@@ -9,7 +9,7 @@ function restaurantDirective() {
         restrict: 'E',
         template: '<div class="restaurant">' +
                     '<h3>{{ res.name }}</h3>' +
-                    '<h4>{{ res.cuisineType }}</h4>' +
+                    '<h4>Featured Cuisine: {{ res.cuisineType }}</h4>' +
                     '<rating restaurantId="{{ res.id }}"></rating>' +
                    '</div>'
     };

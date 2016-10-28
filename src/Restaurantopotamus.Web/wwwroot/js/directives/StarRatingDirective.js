@@ -23,8 +23,8 @@
               '  </li>' +
               '</ul>',
             scope: {
-                ratingValue: '=',
-                max: '=',
+                ratingValue: '=?',
+                max: '=?',
                 onRatingSelected: '&'
             },
             link: function (scope, elem, attrs) {
@@ -44,7 +44,7 @@
                     });
                 };
 
-                scope.$watch('ratingValue', function (oldVal, newVal) { if (newVal) { updateStars(); });
+                scope.$watch('ratingValue', function (oldVal, newVal) { if (newVal) { updateStars(); } });
             }
         };
     }

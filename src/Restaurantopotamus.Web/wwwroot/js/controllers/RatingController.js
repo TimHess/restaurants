@@ -1,8 +1,13 @@
 ﻿angular.module('app')
-    .controller('RatingController', ratingController);
+    .controller('RatingController', RatingController);
 
-ratingController.$inject = ['$scope'];
+RatingController.$inject = ['$scope', '$http'];
 
-function ratingController($scope) {
+function RatingController($scope, $http) {
+    $http.get('/api/rating/' + this.restaurantid).then(function successCallback(response) {
+        $scope.ratingSummary = response.data;
+    }, function errorCallback(response) {
+        debugger;
+    });
 
 }
