@@ -1,28 +1,44 @@
 ﻿using Restaurantopotamus.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Restaurantopotamus.Core.Models;
+using System;
+using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace Restaurantopotamus.Infrastructure.DataAccess
 {
     public class RestaurantCommands : IRestaurantCommands
     {
-        public Task<Restaurant> AddRestaurant(Restaurant toAdd)
+        private readonly CommandContext commands;
+        private readonly QueryContext queries;
+
+        public RestaurantCommands(CommandContext context, QueryContext qc)
         {
-            throw new NotImplementedException();
+            commands = context;
+            queries = qc;
         }
 
-        public Task DeleteRestaurant(Guid toDelete)
+        public async Task<Restaurant> AddRestaurant(Restaurant toAdd)
         {
-            throw new NotImplementedException();
+            commands.Restaurants.Add(toAdd);
+            await commands.SaveChangesAsync();
+            return toAdd;
         }
 
-        public Task<Restaurant> UpdateRestaurant(Restaurant toUpdate)
+        public async Task DeleteRestaurant(Guid resId)
         {
-            throw new NotImplementedException();
+            // get the record
+            var toDelete = await queries.Restaurants.FindAsync(resId);
+            toDelete.Archived = true;
+
+            await commands.SaveChangesAsync();
+        }
+
+        public async Task<Restaurant> UpdateRestaurant(Restaurant toUpdate)
+        {
+            commands.Restaurants.Attach(toUpdate);
+            commands.Entry(toUpdate).State = EntityState.Modified;
+            await commands.SaveChangesAsync();
+            return toUpdate;
         }
     }
 }

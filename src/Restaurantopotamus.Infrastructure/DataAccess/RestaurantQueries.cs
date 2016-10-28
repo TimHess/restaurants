@@ -1,26 +1,29 @@
 ﻿using Restaurantopotamus.Core.Interfaces;
+using Restaurantopotamus.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Restaurantopotamus.Core.Models;
 
 namespace Restaurantopotamus.Infrastructure.DataAccess
 {
     public class RestaurantQueries : IRestaurantQueries
     {
-        public Task<Restaurant> Get(Guid Id)
+        private readonly QueryContext queries;
+
+        public RestaurantQueries(QueryContext context)
         {
-            throw new NotImplementedException();
+            queries = context;
         }
 
-        public Task<IEnumerable<Restaurant>> GetAll()
+        public async Task<Restaurant> Get(Guid Id)
         {
-            return Task.FromResult((new List<Restaurant> {
-                new Restaurant { Id = Guid.NewGuid(), Name = "FromApi", CuisineType = "Tasty" },
-                new Restaurant { Id = Guid.NewGuid(), Name = "FromApi", CuisineType = "Tasty" },
-            }).AsEnumerable());
+            return await queries.Restaurants.FindAsync(Id);
+        }
+
+        public async Task<IEnumerable<Restaurant>> GetAll()
+        {
+            return await Task.FromResult(queries.Restaurants.Where(r => !r.Archived));
         }
     }
 }

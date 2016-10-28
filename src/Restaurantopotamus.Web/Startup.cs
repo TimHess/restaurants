@@ -35,6 +35,8 @@ namespace Restaurantopotamus
             services.AddMvc();
 
             // Add application services.
+            services.AddScoped<CommandContext>(_ => new CommandContext(Configuration.GetConnectionString("CommandConnection")));
+            services.AddScoped<QueryContext>(_ => new QueryContext(Configuration.GetConnectionString("QueryConnection")));
             services.AddTransient<IRatingCommands, RatingCommands>();
             services.AddTransient<IRatingQueries, RatingQueries>();
             services.AddTransient<IRestaurantCommands, RestaurantCommands>();

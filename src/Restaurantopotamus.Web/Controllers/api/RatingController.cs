@@ -22,7 +22,7 @@ namespace Restaurantopotamus.Controllers.api
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            return new JsonResult(await ratingCommands.GetSummary(id));
+            return new JsonResult(await ratingQueries.GetSummary(id));
         }
 
         [HttpPost]

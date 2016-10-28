@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Restaurantopotamus.Core.Interfaces;
 using Restaurantopotamus.Core.Models;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Restaurantopotamus.Controllers.api
 {
@@ -17,11 +14,13 @@ namespace Restaurantopotamus.Controllers.api
     {
         private IRestaurantQueries restaurantQueries;
         private IRestaurantCommands restaurantCommands;
+        private IRatingQueries ratingQueries;
 
-        public RestaurantController(IRestaurantQueries queries, IRestaurantCommands commands)
+        public RestaurantController(IRestaurantQueries queries, IRestaurantCommands commands, IRatingQueries ratequeries)
         {
             restaurantQueries = queries;
             restaurantCommands = commands;
+            ratingQueries = ratequeries;
         }
 
         /// <summary>

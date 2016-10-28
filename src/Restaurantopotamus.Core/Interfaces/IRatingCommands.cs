@@ -13,12 +13,5 @@ namespace Restaurantopotamus.Core.Interfaces
         /// <param name="RatingValue"></param>
         /// <returns></returns>
         Task AddRating(Guid RestaurantId, int RatingValue);
-
-        /// <summary>
-        /// in-memory poc... TODO: delete once there's a persistent data store
-        /// </summary>
-        /// <param name="RestaurantId"></param>
-        /// <returns></returns>
-        Task<RatingSummary> GetSummary(Guid RestaurantId);
     }
 }

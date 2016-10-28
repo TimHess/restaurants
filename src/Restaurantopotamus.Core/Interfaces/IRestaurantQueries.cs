@@ -15,7 +15,7 @@ namespace Restaurantopotamus.Core.Interfaces
         Task<Restaurant> Get(Guid Id);
 
         /// <summary>
-        /// Get all restaurants ----------- TODO: needs partitioning and/or paging scheme
+        /// Get all ACTIVE restaurants ----------- TODO: needs partitioning and/or paging scheme
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<Restaurant>> GetAll();

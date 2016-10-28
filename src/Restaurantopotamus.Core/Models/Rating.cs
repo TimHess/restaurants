@@ -1,15 +1,31 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurantopotamus.Core.Models
 {
     public class Rating
     {
         /// <summary>
-        /// Which restaurant
+        /// Primary key in database
+        /// </summary>
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [JsonIgnore]
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// What is the Id of the restaurant
         /// </summary>
         [Required]
         public Guid RestaurantId { get; set; }
+
+        /// <summary>
+        /// The actual restauant
+        /// </summary>
+        [ForeignKey("FK_RestaurantId")]
+        public Restaurant Restaurant { get; set; }
 
         /// <summary>
         /// How many stars
