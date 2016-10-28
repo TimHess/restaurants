@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Restaurantopotamus.Core.Interfaces;
 using Restaurantopotamus.Core.Models;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Restaurantopotamus.Controllers.api
@@ -22,7 +23,7 @@ namespace Restaurantopotamus.Controllers.api
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            return new JsonResult(await ratingQueries.GetSummary(id));
+            return Json(await ratingQueries.GetSummary(id));
         }
 
         [HttpPost]
@@ -30,11 +31,12 @@ namespace Restaurantopotamus.Controllers.api
         {
             if (!ModelState.IsValid)
             {
+                Trace.TraceInformation("User attempted to post a rating with invalid data");
                 return BadRequest(ModelState);
             }
 
             await ratingCommands.AddRating(rating.RestaurantId, rating.Value);
-            return Created("n/a", rating);
+            return Created("Not Available", rating);
         }
     }
 }

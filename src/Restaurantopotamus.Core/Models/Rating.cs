@@ -22,12 +22,6 @@ namespace Restaurantopotamus.Core.Models
         public Guid RestaurantId { get; set; }
 
         /// <summary>
-        /// The actual restauant
-        /// </summary>
-        [ForeignKey("FK_RestaurantId")]
-        public Restaurant Restaurant { get; set; }
-
-        /// <summary>
         /// How many stars
         /// </summary>
         [Required]

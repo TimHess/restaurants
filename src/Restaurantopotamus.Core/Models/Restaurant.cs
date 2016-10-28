@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,18 +15,19 @@ namespace Restaurantopotamus.Core.Models
         /// <summary>
         /// What is the establishment named
         /// </summary>
+        [Required]
         public string Name { get; set; }
 
         /// <summary>
         /// What type of food is served here
         /// </summary>
+        [Required]
         public string CuisineType { get; set; }
 
         /// <summary>
         /// If Archived == True then somebody "deleted" the record
         /// </summary>
+        [JsonIgnore]
         public bool Archived { get; set; }
-
-        public ICollection<Rating> Ratings { get; set; }
     }
 }

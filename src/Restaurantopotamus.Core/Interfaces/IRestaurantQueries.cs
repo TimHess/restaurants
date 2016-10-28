@@ -1,6 +1,7 @@
 ﻿using Restaurantopotamus.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Restaurantopotamus.Core.Interfaces
@@ -19,5 +20,12 @@ namespace Restaurantopotamus.Core.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<Restaurant>> GetAll();
+
+        /// <summary>
+        /// Search for restaurants
+        /// </summary>
+        /// <param name="Query"></param>
+        /// <returns></returns>
+        Task<IEnumerable<Restaurant>> Query(Expression<Func<Restaurant, bool>> Query);
     }
 }
