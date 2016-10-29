@@ -4,7 +4,10 @@
 RatingController.$inject = ['$scope', '$http'];
 
 function RatingController($scope, $http) {
-    $scope.rate = function () {
-        debugger;
-    }
+    this.rate = function (rating) {
+        $http.post('/api/rating', { "value": rating, "restaurantId": this.restaurantId }).then(function successCallback(response) {
+            console.log('rating received');
+        }, function errorCallback(response) {
+        });
+    };
 }
