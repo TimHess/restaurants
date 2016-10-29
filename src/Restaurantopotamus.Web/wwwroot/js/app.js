@@ -1,1 +1,1 @@
-﻿angular.module('app.Hippo', []);
+﻿angular.module('app.Hippo', ['ui.bootstrap']);

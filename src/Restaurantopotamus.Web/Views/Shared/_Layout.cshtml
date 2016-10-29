@@ -4,7 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Restaurantopotamus</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js" integrity="sha256-6Sr0HqNgUf/p88g6vsl87CrAnNqiOWhjlY6LS8jeWHA=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.min.js" integrity="sha256-QbW7ReHd+kSZ+oECLxJqwMAEfSS7nQFBlF76hdWOTBA=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-touch.min.js" integrity="sha256-8PhLTPxH6rn7uJ36c6Oe0Io10mU70IJRvP+zq/sxSg8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js" integrity="sha256-cug2x5qPL6NUTwS5ws1ykyoqegXJV0GYRj9g2/zChfs=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap.js" integrity="sha256-hbHriLjJ0PIl9NVAaByvOy3ZmZO3h/wdG4DyHH3CoDc=" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <environment names="Development">
@@ -54,12 +58,11 @@
         <script src="~/js/components/RestaurantComponent.js" asp-append-version="true"></script>
         <script src="~/js/components/RatingComponent.js" asp-append-version="true"></script>
         <script src="~/js/components/StarRatingDirective.js" asp-append-version="true"></script>
-   </environment>
+    </environment>
     <environment names="Staging,Production">
         <script src="~/js/app.min.js" asp-append-version="true"></script>
         <script src="~/js/components.min.js" asp-append-version="true"></script>
     </environment>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>
