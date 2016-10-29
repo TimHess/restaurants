@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-      .module('app')
+      .module('app.Hippo')
       .controller('StarController', StarController)
       .directive('starRating', starRating);
 
@@ -20,7 +20,7 @@
               '<ul class="star-rating">' +
               '  <li ng-repeat="star in stars" class="star" ng-class="{filled: star.filled}" ng-click="toggle($index)">' +
               '    <i class="fa fa-star"></i>' +
-              '  </li>' +
+              '  </li> ({{ ratingValue }}/{{ max }})' +
               '</ul>',
             scope: {
                 ratingValue: '=?',

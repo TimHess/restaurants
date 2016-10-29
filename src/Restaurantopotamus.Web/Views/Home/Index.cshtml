@@ -1,10 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<div ng-app="app">
+<div ng-app="app.Hippo">
     <div class="row" ng-controller="RestaurantController">
-        <div class="col-md-3" ng-repeat="res in Restaurants">
-            <restaurant restaurant="res"></restaurant>
+        <div class="col-md-3" ng-repeat="res in Restaurants" id="r{{res.id}}">
+            <restaurant restaurant="res" remove="remove(id)"></restaurant>
         </div>
     </div>
 </div>

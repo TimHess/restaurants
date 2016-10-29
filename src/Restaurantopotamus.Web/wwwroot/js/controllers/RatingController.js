@@ -1,13 +1,10 @@
-﻿angular.module('app')
+﻿angular.module('app.Hippo')
     .controller('RatingController', RatingController);
 
 RatingController.$inject = ['$scope', '$http'];
 
 function RatingController($scope, $http) {
-    $http.get('/api/rating/' + this.restaurantid).then(function successCallback(response) {
-        $scope.ratingSummary = response.data;
-    }, function errorCallback(response) {
+    $scope.rate = function () {
         debugger;
-    });
-
+    }
 }

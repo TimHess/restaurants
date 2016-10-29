@@ -7,9 +7,9 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
 {
     public class RatingCommands : IRatingCommands
     {
-        private readonly CommandContext commands;
+        private readonly RestaurantContext commands;
 
-        public RatingCommands(CommandContext context)
+        public RatingCommands(RestaurantContext context)
         {
             commands = context;
         }

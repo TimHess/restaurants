@@ -57,10 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\EF\CommandContext.cs" />
-    <Compile Include="DataAccess\EF\CommandContextFactory.cs" />
-    <Compile Include="DataAccess\EF\QueryContext.cs" />
-    <Compile Include="DataAccess\EF\QueryContextFactory.cs" />
+    <Compile Include="DataAccess\EF\RestaurantContext.cs" />
+    <Compile Include="DataAccess\EF\RestaurantContextFactory.cs" />
     <Compile Include="DataAccess\RatingCommands.cs" />
     <Compile Include="DataAccess\RatingQueries.cs" />
     <Compile Include="DataAccess\RestaurantCommands.cs" />

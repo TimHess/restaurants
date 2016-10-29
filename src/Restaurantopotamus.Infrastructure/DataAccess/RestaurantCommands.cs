@@ -8,36 +8,33 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
 {
     public class RestaurantCommands : IRestaurantCommands
     {
-        private readonly CommandContext commands;
-        private readonly QueryContext queries;
+        private readonly RestaurantContext context;
 
-        public RestaurantCommands(CommandContext context, QueryContext qc)
+        public RestaurantCommands(RestaurantContext context)
         {
-            commands = context;
-            queries = qc;
+            this.context = context;
         }
 
         public async Task<Restaurant> AddRestaurant(Restaurant toAdd)
         {
-            commands.Restaurants.Add(toAdd);
-            await commands.SaveChangesAsync();
+            context.Restaurants.Add(toAdd);
+            await context.SaveChangesAsync();
             return toAdd;
         }
 
         public async Task DeleteRestaurant(Guid resId)
         {
             // get the record
-            var toDelete = await queries.Restaurants.FindAsync(resId);
+            var toDelete = await context.Restaurants.FindAsync(resId);
             toDelete.Archived = true;
-
-            await commands.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         public async Task<Restaurant> UpdateRestaurant(Restaurant toUpdate)
         {
-            commands.Restaurants.Attach(toUpdate);
-            commands.Entry(toUpdate).State = EntityState.Modified;
-            await commands.SaveChangesAsync();
+            context.Restaurants.Attach(toUpdate);
+            context.Entry(toUpdate).State = EntityState.Modified;
+            await context.SaveChangesAsync();
             return toUpdate;
         }
     }

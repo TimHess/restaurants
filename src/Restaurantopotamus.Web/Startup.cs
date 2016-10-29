@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Restaurantopotamus.Core.Interfaces;
 using Restaurantopotamus.Infrastructure.DataAccess;
+using System.Buffers;
 
 namespace Restaurantopotamus
 {
@@ -35,8 +38,7 @@ namespace Restaurantopotamus
             services.AddMvc();
 
             // Add application services.
-            services.AddScoped<CommandContext>(_ => new CommandContext(Configuration.GetConnectionString("CommandConnection")));
-            services.AddScoped<QueryContext>(_ => new QueryContext(Configuration.GetConnectionString("QueryConnection")));
+            services.AddScoped<RestaurantContext>(_ => new RestaurantContext(Configuration.GetConnectionString("Restaurants")));
             services.AddTransient<IRatingCommands, RatingCommands>();
             services.AddTransient<IRatingQueries, RatingQueries>();
             services.AddTransient<IRestaurantCommands, RestaurantCommands>();

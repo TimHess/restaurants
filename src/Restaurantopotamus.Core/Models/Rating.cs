@@ -21,6 +21,8 @@ namespace Restaurantopotamus.Core.Models
         [Required]
         public Guid RestaurantId { get; set; }
 
+        public virtual Restaurant Restaurant { get; set; }
+
         /// <summary>
         /// How many stars
         /// </summary>

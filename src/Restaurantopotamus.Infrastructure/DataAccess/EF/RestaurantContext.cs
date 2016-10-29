@@ -3,9 +3,9 @@ using System.Data.Entity;
 
 namespace Restaurantopotamus.Infrastructure.DataAccess
 {
-    public class QueryContext : DbContext
+    public class RestaurantContext : DbContext
     {
-        public QueryContext(string connString) : base(connString)
+        public RestaurantContext(string connString) : base(connString)
         {
 
         }
