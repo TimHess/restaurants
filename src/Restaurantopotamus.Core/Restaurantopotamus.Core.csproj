@@ -49,6 +49,9 @@
     <Compile Include="Interfaces\IRatingQueries.cs" />
     <Compile Include="Interfaces\IRestaurantCommands.cs" />
     <Compile Include="Interfaces\IRestaurantQueries.cs" />
+    <Compile Include="Interfaces\IUserCommands.cs" />
+    <Compile Include="Interfaces\IUserQueries.cs" />
+    <Compile Include="Models\AppUser.cs" />
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\RatingSummary.cs" />
     <Compile Include="Models\Restaurant.cs" />

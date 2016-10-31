@@ -13,5 +13,7 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
         public DbSet<Restaurant> Restaurants { get; set; }
 
         public DbSet<Rating> Ratings { get; set; }
+
+        public DbSet<AppUser> Users { get; set; }
     }
 }

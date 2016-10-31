@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Restaurantopotamus.Core.Interfaces;
 using Restaurantopotamus.Infrastructure.DataAccess;
-using System.Buffers;
+using Restaurantopotamus.Middlewares;
+using Restaurantopotamus.Web.Models;
+using System;
+using System.Text;
 
 namespace Restaurantopotamus
 {
@@ -43,6 +46,8 @@ namespace Restaurantopotamus
             services.AddTransient<IRatingQueries, RatingQueries>();
             services.AddTransient<IRestaurantCommands, RestaurantCommands>();
             services.AddTransient<IRestaurantQueries, RestaurantQueries>();
+            services.AddTransient<IUserCommands, UserCommands>();
+            services.AddTransient<IUserQueries, UserQueries>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +68,45 @@ namespace Restaurantopotamus
 
             app.UseStaticFiles();
 
-            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            // Setup token validation middleware
+            var secretKey = "Restaurantoppatomus!123";
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                // The signing key must match!
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = "Restaurantoppotamus",
+
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = "TheWorld",
+
+                // Validate the token expiry
+                ValidateLifetime = true,
+
+                // If you want to allow a certain amount of clock drift, set that here:
+                ClockSkew = TimeSpan.Zero
+            };
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = tokenValidationParameters
+            });
+
+            // Add JWT generation endpoint:
+            var options = new TokenProviderOptions
+            {
+                Audience = "TheWorld", 
+                Issuer = "Restaurantoppotamus",
+                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+            };
+            app.UseMiddleware<TokenProviderMiddleware>(Options.Create(options));
 
             app.UseMvc(routes =>
             {

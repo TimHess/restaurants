@@ -52,7 +52,7 @@ namespace Restaurantopotamus.Controllers.api
         /// </summary>
         /// <param name="toAdd"></param>
         /// <returns></returns>
-        // [Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Restaurant toAdd)
         {
@@ -93,7 +93,7 @@ namespace Restaurantopotamus.Controllers.api
         /// </summary>
         /// <param name="toUpdate"></param>
         /// <returns></returns>
-        // [Authorize]
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]Restaurant toUpdate)
         {
@@ -121,7 +121,7 @@ namespace Restaurantopotamus.Controllers.api
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        // [Authorize]
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
