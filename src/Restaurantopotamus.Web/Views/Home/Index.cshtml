@@ -7,7 +7,7 @@
             <div class="col-lg-4 col-sm-6" ng-repeat="res in Restaurants" id="r{{res.id}}">
                 <restaurant restaurant="res" remove="remove(id)"></restaurant>
             </div>
-            <span uib-dropdown on-toggle="toggled(open)">
+            @*<span uib-dropdown on-toggle="toggled(open)">
                 <a href id="simple-dropdown" uib-dropdown-toggle>
                     Click me for a dropdown, yo!
                 </a>
@@ -16,7 +16,8 @@
                         <a href>{{choice}}</a>
                     </li>
                 </ul>
-            </span>
+            </span>*@
         </div>
     </div>
+    <auth></auth>
 </div>

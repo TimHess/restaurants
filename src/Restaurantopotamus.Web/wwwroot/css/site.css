@@ -17,6 +17,13 @@ textarea {
     max-width: 280px;
 }
 
+.login {
+    position:absolute;
+    top:9px;
+    right:12px;
+    z-index:10000;
+}
+
 .restaurant {
     border: 1px solid black;
     margin: 10px auto;
