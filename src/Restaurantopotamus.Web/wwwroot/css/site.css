@@ -18,10 +18,22 @@ textarea {
 }
 
 .login {
+    color:white;
     position:absolute;
     top:9px;
     right:12px;
+    text-align:right;
     z-index:10000;
+}
+.login input[type=text],.login input[type=password]{
+    color:black;
+}
+.login form {
+    display:inline;
+}
+.login a {
+    margin: 0 10px;
+    color:#ccc;
 }
 
 .restaurant {
@@ -73,6 +85,7 @@ textarea {
 .fa-6 {
     font-size: 20em;
 }
+
 .spinner {
     color: #ccc;
     margin: 20px 0;

@@ -9,7 +9,6 @@ function RestaurantController($scope, $http, $uibModal) {
         $scope.Restaurants = response.data;
         $scope.loading = false;
     }, function errorCallback(response) {
-        debugger;
         $scope.loading = false;
     });
     $scope.status = {
@@ -57,11 +56,16 @@ function RestaurantController($scope, $http, $uibModal) {
             return;
         }
 
-        $http.delete('/api/restaurant/' + id).then(function successCallback(response) {
-            var element = document.getElementById("r" + id);
-            element.parentNode.removeChild(element);
-        }, function errorCallback(response) {
-            debugger;
-        });
+        $http.delete('/api/restaurant/' + id, { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem('user'))).token } })
+            .then(function successCallback(response) {
+                var element = document.getElementById("r" + id);
+                element.parentNode.removeChild(element);
+            }, function errorCallback(response) {
+                if (response.status == 401) {
+                    alert("Sorry, you're not authorized to do that");
+                } else {
+                    alert("Sorry, something went wrong");
+                }
+            });
     }
 }

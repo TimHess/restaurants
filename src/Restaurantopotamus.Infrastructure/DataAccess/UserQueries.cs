@@ -16,7 +16,7 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
         public async Task<bool> Login(string UserName, string Password)
         {
             AppUser user = await context.Users.FindAsync(UserName);
-            if (BCrypt.Net.BCrypt.Verify(Password, user.PassHash))
+            if (user != null && BCrypt.Net.BCrypt.Verify(Password, user?.PassHash))
             {
                 return true;
             }
