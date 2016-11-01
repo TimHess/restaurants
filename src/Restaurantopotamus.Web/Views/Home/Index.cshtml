@@ -6,18 +6,23 @@
         <div class="row">
             <div class="col-xs-12 spinner" ng-show="loading"><i class="fa fa-spinner fa-6"></i></div>
             <div class="col-lg-4 col-sm-6" ng-repeat="res in Restaurants" id="r{{res.id}}">
-                <restaurant restaurant="res" remove="remove(id)"></restaurant>
+                <restaurant restaurant="res" remove="remove(id)" edit="edit(toEdit)"></restaurant>
             </div>
-            @*<span uib-dropdown on-toggle="toggled(open)">
-                <a href id="simple-dropdown" uib-dropdown-toggle>
-                    Click me for a dropdown, yo!
-                </a>
-                <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                    <li ng-repeat="choice in items">
-                        <a href>{{choice}}</a>
-                    </li>
-                </ul>
-            </span>*@
+        </div>
+        <div class="row" style="text-align:center;" ng-if="authenticated">
+            <h3 ng-hide="addOrEdit">
+                Don&apos;t see what you&apos;re looking for?
+                <a href ng-click="add()">Add a restaurant</a>
+            </h3>
+            <div class="addEditForm" ng-if="addOrEdit">
+                <form novalidate>
+                    Restaurant name: <input type="text" ng-model="restaurant.name" />
+                    Cuisine type: <input type="text" ng-model="restaurant.cuisineType" />
+                    <input type="hidden" ng-model="restaurant.id" />
+                    <button class="btn btn-primary" type="submit" ng-click="submitForm(restaurant)">{{addEditButtonText}}</button>
+                    <a href ng-click="cancel()">Cancel</a>
+                </form>
+            </div>
         </div>
     </div>
     <auth></auth>

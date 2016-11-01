@@ -1,6 +1,5 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="js/app.min.js" />
-/// <reference path="js/components.min.js" />
 /// <reference path="js/components/authcomponent.js" />
 /// <reference path="js/components/RatingComponent.js" />
 /// <reference path="js/components/RestaurantComponent.js" />

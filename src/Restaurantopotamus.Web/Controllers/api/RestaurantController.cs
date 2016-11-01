@@ -78,6 +78,8 @@ namespace Restaurantopotamus.Controllers.api
             try
             {
                 added = await restaurantCommands.AddRestaurant(toAdd);
+                var username = User.Claims.First(x => x.Type.Contains("nameidentifier"));
+                Trace.TraceInformation("Restaurant {0} added by {1}", toAdd.Id, username.Value);
             }
             catch (Exception e)
             {
@@ -105,6 +107,8 @@ namespace Restaurantopotamus.Controllers.api
 
             try
             {
+                var username = User.Claims.First(x => x.Type.Contains("nameidentifier"));
+                Trace.TraceInformation("Restaurant {0} updated by {1}", toUpdate.Id, username.Value);
                 await restaurantCommands.UpdateRestaurant(toUpdate);
             }
             catch (Exception e)
@@ -128,6 +132,8 @@ namespace Restaurantopotamus.Controllers.api
             try
             {
                 await restaurantCommands.DeleteRestaurant(id);
+                var username = User.Claims.First(x => x.Type.Contains("nameidentifier"));
+                Trace.TraceInformation("Restaurant {0} deleted by {1}", id, username.Value);
             }
             catch (Exception e)
             {

@@ -1,0 +1,318 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Restaurantopotamus",
+		"_postman_id": "5e9ac141-3c9c-767b-3aff-d6992d424cf3",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"description": "",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 201\"] = responseCode.code === 201;\n\nvar jsonData = JSON.parse(responseBody);\npostman.setGlobalVariable(\"restAuthKey\", jsonData.access_token);"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/api/auth/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"UserName\":\"user2\",\n\t\"Password\":\"pass\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "\nvar jsonData = JSON.parse(responseBody);\npostman.setGlobalVariable(\"restAuthKey\", jsonData.access_token);"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/token",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "user1",
+									"type": "text",
+									"enabled": true
+								},
+								{
+									"key": "password",
+									"value": "pass",
+									"type": "text",
+									"enabled": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rating",
+			"description": "",
+			"item": [
+				{
+					"name": "Add a Rating",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 201\"] = responseCode.code === 201;"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/api/rating",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\":2,\n  \"restaurantId\":\"{{RestaurantId}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rating Summary",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Body includes an average rating\"] = responseBody.has(\"averageRating\");\ntests[\"Body includes a number of ratings\"] = responseBody.has(\"numberOfRatings\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/api/rating/0c58e752-ee11-4ee9-b30a-0509a21d55f",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurants",
+			"description": "",
+			"item": [
+				{
+					"name": "Get all Restaurants",
+					"request": {
+						"url": "http://localhost:5000/api/Restaurant",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add a Restaurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 201\"] = responseCode.code === 201;\n\npostman.setGlobalVariable(\"RestaurantId\", JSON.parse(responseBody).id);"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var RandomName = \"Random Restaurant - \" + Math.floor(Math.random() * 100);\npostman.setGlobalVariable(\"RestaurantName\", RandomName);"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/api/Restaurant",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{restAuthKey}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"{{RestaurantName}}\",\n  \"cuisineType\":\"All\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Adding a Restaurant twice will fail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 409\"] = responseCode.code === 409;"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/api/Restaurant",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{restAuthKey}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\":\"{{RestaurantName}}\",\n  \"cuisineType\":\"All\"\n}"
+						},
+						"description": "Adding the same restaurant (same name + cuisine) twice should return status HTTP 409 Conflict"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Restaurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 204\"] = responseCode.code === 204;"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/api/Restaurant",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{restAuthKey}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\n    \"id\": \"{{RestaurantId}}\",\n    \"name\": \"Mine\",\n    \"cuisineType\": \"All\"\n  }"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Restaurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/api/Restaurant/{{RestaurantId}}",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Restaurant",
+					"request": {
+						"url": "http://localhost:5000/api/Restaurant/{{RestaurantId}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{restAuthKey}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

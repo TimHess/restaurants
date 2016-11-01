@@ -94,7 +94,8 @@ namespace Restaurantopotamus
 
             app.UseJwtBearerAuthentication(new JwtBearerOptions
             {
-                AutomaticAuthenticate = true,
+                AuthenticationScheme = "Active",
+                AutomaticAuthenticate = true, 
                 AutomaticChallenge = true,
                 TokenValidationParameters = tokenValidationParameters
             });

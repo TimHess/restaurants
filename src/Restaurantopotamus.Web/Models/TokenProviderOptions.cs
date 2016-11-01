@@ -11,7 +11,7 @@ namespace Restaurantopotamus.Web.Models
 
         public string Audience { get; set; }
 
-        public TimeSpan Expiration { get; set; } = TimeSpan.FromMinutes(60);
+        public TimeSpan Expiration { get; set; } = TimeSpan.FromDays(60);
 
         public SigningCredentials SigningCredentials { get; set; }
     }

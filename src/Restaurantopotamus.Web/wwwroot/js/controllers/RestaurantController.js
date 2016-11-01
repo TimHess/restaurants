@@ -1,54 +1,66 @@
 ﻿angular.module('app.Hippo')
     .controller('RestaurantController', RestaurantController);
 
-RestaurantController.$inject = ['$scope', '$http', '$uibModal'];
+RestaurantController.$inject = ['$scope', '$http'];
 
-function RestaurantController($scope, $http, $uibModal) {
+function RestaurantController($scope, $http) {
     $scope.loading = true;
+    $scope.addOrEdit = false;
     $http.get('/api/restaurant').then(function successCallback(response) {
         $scope.Restaurants = response.data;
         $scope.loading = false;
     }, function errorCallback(response) {
         $scope.loading = false;
     });
-    $scope.status = {
-        isopen: false
-    };
-
-    var $ctrl = this;
-    $ctrl.items = ['item1', 'item2', 'item3'];
-    $ctrl.openComponentModal = function () {
-        var modalInstance = $uibModal.open({
-            animation: $ctrl.animationsEnabled,
-            component: 'modalComponent',
-            resolve: {
-                items: function () {
-                    return $ctrl.items;
-                }
-            }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $ctrl.selected = selectedItem;
-        }, function () {
-            $log.info('modal-component dismissed at: ' + new Date());
-        });
-    };
 
     $scope.add = function () {
-
+        $scope.addOrEdit = true;
+        $scope.addEditButtonText = "Add Restaurant";
     }
 
-    $scope.addSubmit = function () {
-
+    $scope.tryadd = function (restaurant) {
+        $http.post('/api/restaurant/',
+                    { "name": restaurant.name, "cuisineType": restaurant.cuisineType },
+                    { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem('user'))).token } })
+            .then(function successCallback(response) {
+                console.log('restaurant added');
+                $scope.Restaurants.push(response.data);
+            }, function errorCallback(response) {
+                if (response.status == 401) {
+                    alert("Sorry, you're not authorized to do that");
+                } else {
+                    alert("Sorry, something went wrong");
+                }
+            });
     }
 
-    $scope.edit = function () {
-
+    $scope.edit = function (toEdit) {
+        $scope.addOrEdit = true;
+        $scope.addEditButtonText = "Edit Restaurant";
+        $scope.restaurant = toEdit;
     }
 
-    $scope.editSubmit = function () {
+    $scope.tryedit = function (restaurant) {
+        $http.put('/api/restaurant/',
+                    { "id":restaurant.id, "name": restaurant.name, "cuisineType": restaurant.cuisineType },
+                    { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem('user'))).token } })
+            .then(function successCallback(response) {
+                console.log('restaurant edited');
+            }, function errorCallback(response) {
+                if (response.status == 401) {
+                    alert("Sorry, you're not authorized to do that");
+                } else {
+                    alert("Sorry, something went wrong");
+                }
+            });
+    }
 
+    $scope.submitForm = function (restaurant) {
+        if (restaurant.id) {
+            $scope.tryedit(restaurant)
+        } else {
+            $scope.tryadd(restaurant);
+        }
     }
 
     $scope.remove = function (id) {
@@ -67,5 +79,9 @@ function RestaurantController($scope, $http, $uibModal) {
                     alert("Sorry, something went wrong");
                 }
             });
+    }
+
+    $scope.cancel = function () {
+        $scope.addOrEdit = false;
     }
 }
