@@ -6,7 +6,7 @@
                 $scope.authenticated = $rootScope.authenticated;
             });
         },
-        template: '<div class="restaurant">' +
+        template: '<div id="rc{{$ctrl.restaurant.id}}" class="restaurant form-control">' +
                     '<i class="fa fa-lg fa-trash-o" ng-click="$ctrl.remove({id:$ctrl.restaurant.id})" ng-if="authenticated"></i>' +
                     '<i class="fa fa-lg fa-pencil" ng-click="$ctrl.edit({toEdit:$ctrl.restaurant})" ng-if="authenticated"></i>' +
                     '<h3>{{ $ctrl.restaurant.name }}</h3>' +

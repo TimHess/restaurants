@@ -8,10 +8,13 @@
             <div class="col-lg-4 col-sm-6" ng-repeat="res in Restaurants" id="r{{res.id}}">
                 <restaurant restaurant="res" remove="remove(id)" edit="edit(toEdit)"></restaurant>
             </div>
+            <div class="col-xs-12" ng-if="Restaurants.length == 0">
+                <h2>No restaurants found -<span ng-if="!authenticated"> register to</span> add the first!</h2>
+            </div>
         </div>
         <div class="row" style="text-align:center;" ng-if="authenticated">
             <h3 ng-hide="addOrEdit">
-                Don&apos;t see what you&apos;re looking for?
+                <span ng-if="Restaurants.length > 0">Don&apos;t see what you&apos;re looking for?</span>
                 <a href ng-click="add()">Add a restaurant</a>
             </h3>
             <div class="addEditForm" ng-if="addOrEdit">

@@ -16,7 +16,11 @@ select,
 textarea {
     max-width: 280px;
 }
-
+.logo {
+    float:left;
+    margin-right:10px;
+    width:45px;
+}
 .login {
     color:white;
     position:absolute;

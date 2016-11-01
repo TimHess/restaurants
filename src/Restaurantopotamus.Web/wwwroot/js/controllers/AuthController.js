@@ -22,6 +22,7 @@ function AuthController($scope, $http, $rootScope) {
     $scope.login = function () {
         $scope.showForm = "login";
         $scope.buttonText = "Sign In";
+        focusOnUsername();
     };
 
     $scope.trylogin = function (user) {
@@ -41,9 +42,9 @@ function AuthController($scope, $http, $rootScope) {
             alert('Please enter a username and password');
             return;
         }
-        if ($scope.showForm == 'login') {
+        if ($scope.showForm === 'login') {
             $scope.trylogin(user);
-        } else if ($scope.showForm == 'register') {
+        } else if ($scope.showForm === 'register') {
             $scope.tryregister(user);
         }
     }
@@ -51,6 +52,7 @@ function AuthController($scope, $http, $rootScope) {
     $scope.register = function () {
         $scope.showForm = "register";
         $scope.buttonText = "Register";
+        focusOnUsername();
     }
 
     $scope.tryregister = function (user) {
@@ -58,7 +60,7 @@ function AuthController($scope, $http, $rootScope) {
         $http.post('/api/auth/register', { "username": user.name, "password": user.password })
             .success(function (response) {
                 user.token = response.access_token;
-                sessionStorage.setItem('user', user);
+                sessionStorage.setItem('user', JSON.stringify(user));
                 $scope.authenticated = true;
             }).error(function (response) {
                 alert(response);
@@ -74,5 +76,11 @@ function AuthController($scope, $http, $rootScope) {
         console.log('logged out');
         $scope.authenticated = false;
         sessionStorage.removeItem('token');
+    }
+
+    function focusOnUsername () {
+        window.setTimeout(function () {
+            document.getElementById('username').focus();
+        }, 10);
     }
 }

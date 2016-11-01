@@ -1,1 +1,1 @@
-﻿angular.module('app.Hippo', ['ui.bootstrap']);
+﻿angular.module('app.Hippo', ['ngAnimate', 'toastr']);

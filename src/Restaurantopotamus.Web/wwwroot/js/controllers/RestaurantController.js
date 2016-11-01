@@ -1,9 +1,9 @@
 ﻿angular.module('app.Hippo')
     .controller('RestaurantController', RestaurantController);
 
-RestaurantController.$inject = ['$scope', '$http'];
+RestaurantController.$inject = ['$scope', '$http', 'toastr'];
 
-function RestaurantController($scope, $http) {
+function RestaurantController($scope, $http, toastr) {
     $scope.loading = true;
     $scope.addOrEdit = false;
     $http.get('/api/restaurant').then(function successCallback(response) {
@@ -16,6 +16,7 @@ function RestaurantController($scope, $http) {
     $scope.add = function () {
         $scope.addOrEdit = true;
         $scope.addEditButtonText = "Add Restaurant";
+        $scope.restaurant = { name: null, cuisineType: null, id: null };
     }
 
     $scope.tryadd = function (restaurant) {
@@ -23,8 +24,9 @@ function RestaurantController($scope, $http) {
                     { "name": restaurant.name, "cuisineType": restaurant.cuisineType },
                     { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem('user'))).token } })
             .then(function successCallback(response) {
-                console.log('restaurant added');
+                toastr.success(('R has been updated').replace("R", restaurant.name), 'Restaurant added!');
                 $scope.Restaurants.push(response.data);
+                $scope.addOrEdit = false;
             }, function errorCallback(response) {
                 if (response.status == 401) {
                     alert("Sorry, you're not authorized to do that");
@@ -37,7 +39,8 @@ function RestaurantController($scope, $http) {
     $scope.edit = function (toEdit) {
         $scope.addOrEdit = true;
         $scope.addEditButtonText = "Edit Restaurant";
-        $scope.restaurant = toEdit;
+        $scope.restaurant = { name: toEdit.name, cuisineType: toEdit.cuisineType, id: toEdit.id };
+        $scope.saved = toEdit;
     }
 
     $scope.tryedit = function (restaurant) {
@@ -45,7 +48,10 @@ function RestaurantController($scope, $http) {
                     { "id":restaurant.id, "name": restaurant.name, "cuisineType": restaurant.cuisineType },
                     { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem('user'))).token } })
             .then(function successCallback(response) {
-                console.log('restaurant edited');
+                toastr.success(('R has been updated').replace("R", restaurant.name), 'Restaurant updated!');
+                $scope.saved.name = $scope.restaurant.name;
+                $scope.saved.cuisineType = $scope.restaurant.cuisineType;
+                $scope.addOrEdit = false;
             }, function errorCallback(response) {
                 if (response.status == 401) {
                     alert("Sorry, you're not authorized to do that");
