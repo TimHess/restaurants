@@ -4,10 +4,13 @@
 RestaurantController.$inject = ['$scope', '$http', '$uibModal'];
 
 function RestaurantController($scope, $http, $uibModal) {
+    $scope.loading = true;
     $http.get('/api/restaurant').then(function successCallback(response) {
         $scope.Restaurants = response.data;
+        $scope.loading = false;
     }, function errorCallback(response) {
         debugger;
+        $scope.loading = false;
     });
     $scope.status = {
         isopen: false

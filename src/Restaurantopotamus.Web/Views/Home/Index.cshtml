@@ -4,6 +4,7 @@
 <div ng-app="app.Hippo">
     <div ng-controller="RestaurantController">
         <div class="row">
+            <div class="col-xs-12 spinner" ng-show="loading"><i class="fa fa-spinner fa-6"></i></div>
             <div class="col-lg-4 col-sm-6" ng-repeat="res in Restaurants" id="r{{res.id}}">
                 <restaurant restaurant="res" remove="remove(id)"></restaurant>
             </div>
