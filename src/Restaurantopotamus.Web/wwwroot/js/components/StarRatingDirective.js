@@ -20,7 +20,7 @@
               '<ul class="star-rating">' +
               '  <li ng-repeat="star in stars" class="star" ng-class="{filled: star.filled}" ng-click="toggle($index)">' +
               '    <i class="fa fa-star"></i>' +
-              '  </li> ({{ ratingValue }}/{{ max }})' +
+              '  </li> ({{ ratingValue | number:1 }}/{{ max }})' +
               '</ul>',
             scope: {
                 ratingValue: '=?',

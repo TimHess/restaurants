@@ -58,12 +58,12 @@ function AuthController($scope, $http, $rootScope) {
     $scope.tryregister = function (user) {
         console.log('registering');
         $http.post('/api/auth/register', { "username": user.name, "password": user.password })
-            .success(function (response) {
+            .then(function successCallback(response) {
                 user.token = response.access_token;
                 sessionStorage.setItem('user', JSON.stringify(user));
                 $scope.authenticated = true;
-            }).error(function (response) {
-                alert(response);
+            }, function errorCallback(response) {
+                alert(response.data.error);
             });
     };
 
@@ -75,7 +75,7 @@ function AuthController($scope, $http, $rootScope) {
     $scope.logout = function () {
         console.log('logged out');
         $scope.authenticated = false;
-        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user');
     }
 
     function focusOnUsername () {

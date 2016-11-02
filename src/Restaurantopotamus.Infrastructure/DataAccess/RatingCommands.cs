@@ -7,17 +7,16 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
 {
     public class RatingCommands : IRatingCommands
     {
-        private readonly RestaurantContext commands;
+        private readonly IDataCommands commands;
 
-        public RatingCommands(RestaurantContext context)
+        public RatingCommands(IDataCommands data)
         {
-            commands = context;
+            commands = data;
         }
 
         public async Task AddRating(Guid RestaurantId, int RatingValue)
         {
-            commands.Ratings.Add(new Rating { RestaurantId = RestaurantId, Value = RatingValue });
-            await commands.SaveChangesAsync();
+            await commands.Add<Rating>(new Rating { RestaurantId = RestaurantId, Value = RatingValue });
         }
     }
 }

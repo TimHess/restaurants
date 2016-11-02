@@ -1,41 +1,34 @@
 ﻿using Restaurantopotamus.Core.Interfaces;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Restaurantopotamus.Core.Models;
-using System.Data.Entity.Infrastructure;
+using System;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace Restaurantopotamus.Infrastructure.DataAccess
 {
     public class UserCommands : IUserCommands
     {
-        private RestaurantContext context;
+        private readonly IDataCommands commands;
 
-        public UserCommands(RestaurantContext context)
+        public UserCommands(IDataCommands data)
         {
-            this.context = context;
+            this.commands = data;
         }
 
         public async Task<AppUser> Register(string UserName, string Password)
         {
-            if (context.Users.Any(x => x.UserName.Equals(UserName, StringComparison.OrdinalIgnoreCase)))
-            {
-                throw new ArgumentException("Username already in use");
-            }
-
             var toAdd = new AppUser
             {
                 UserName = UserName,
                 PassHash = BCrypt.Net.BCrypt.HashPassword(Password, 10),
-                Password = "NotMapped"
+                Password = "NotMapped" // TODO: remove hack to bypass validation
             };
-            context.Users.Add(toAdd);
+
             try
             {
-                await context.SaveChangesAsync();
+                toAdd = await commands.Add(toAdd);
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex)
             {
                 SqlException innerException = ex.InnerException.InnerException as SqlException;
                 if (innerException != null && (innerException.Number == 2627 || innerException.Number == 2601))

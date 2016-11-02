@@ -20,14 +20,17 @@ function RestaurantController($scope, $http, toastr) {
     }
 
     $scope.tryadd = function (restaurant) {
+        $scope.loading = true;
         $http.post('/api/restaurant/',
                     { "name": restaurant.name, "cuisineType": restaurant.cuisineType },
                     { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem('user'))).token } })
             .then(function successCallback(response) {
+                $scope.loading = false;
                 toastr.success(('R has been updated').replace("R", restaurant.name), 'Restaurant added!');
                 $scope.Restaurants.push(response.data);
                 $scope.addOrEdit = false;
             }, function errorCallback(response) {
+                $scope.loading = false;
                 if (response.status == 401) {
                     alert("Sorry, you're not authorized to do that");
                 } else {
@@ -44,6 +47,7 @@ function RestaurantController($scope, $http, toastr) {
     }
 
     $scope.tryedit = function (restaurant) {
+        $scope.loading = true;
         $http.put('/api/restaurant/',
                     { "id":restaurant.id, "name": restaurant.name, "cuisineType": restaurant.cuisineType },
                     { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem('user'))).token } })
@@ -52,13 +56,15 @@ function RestaurantController($scope, $http, toastr) {
                 $scope.saved.name = $scope.restaurant.name;
                 $scope.saved.cuisineType = $scope.restaurant.cuisineType;
                 $scope.addOrEdit = false;
-            }, function errorCallback(response) {
+                $scope.loading = false;
+        }, function errorCallback(response) {
                 if (response.status == 401) {
                     alert("Sorry, you're not authorized to do that");
                 } else {
                     alert("Sorry, something went wrong");
                 }
-            });
+                $scope.loading = false;
+        });
     }
 
     $scope.submitForm = function (restaurant) {
@@ -73,17 +79,20 @@ function RestaurantController($scope, $http, toastr) {
         if (!confirm("Are you sure? You will not be able to undo this action!")) {
             return;
         }
+        $scope.loading = true;
 
         $http.delete('/api/restaurant/' + id, { headers: { "Authorization": "Bearer " + (JSON.parse(sessionStorage.getItem('user'))).token } })
             .then(function successCallback(response) {
                 var element = document.getElementById("r" + id);
                 element.parentNode.removeChild(element);
+                $scope.loading = false;
             }, function errorCallback(response) {
                 if (response.status == 401) {
                     alert("Sorry, you're not authorized to do that");
                 } else {
                     alert("Sorry, something went wrong");
                 }
+                $scope.loading = false;
             });
     }
 

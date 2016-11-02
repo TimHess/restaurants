@@ -6,16 +6,16 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
 {
     public class UserQueries : IUserQueries
     {
-        private RestaurantContext context;
+        private readonly IDataQueries queries;
 
-        public UserQueries(RestaurantContext context)
+        public UserQueries(IDataQueries data)
         {
-            this.context = context;
+            this.queries = data;
         }
 
         public async Task<bool> Login(string UserName, string Password)
         {
-            AppUser user = await context.Users.FindAsync(UserName);
+            AppUser user = await queries.FindUserAsync(UserName);
             if (user != null && BCrypt.Net.BCrypt.Verify(Password, user?.PassHash))
             {
                 return true;

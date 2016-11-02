@@ -11,9 +11,9 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
 {
     public class RestaurantQueries : IRestaurantQueries
     {
-        private readonly RestaurantContext queries;
+        private readonly IDataQueries queries;
 
-        public RestaurantQueries(RestaurantContext context)
+        public RestaurantQueries(IDataQueries context)
         {
             queries = context;
         }

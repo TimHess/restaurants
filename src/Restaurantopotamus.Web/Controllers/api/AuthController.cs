@@ -5,6 +5,7 @@ using Restaurantopotamus.Core.Models;
 using Restaurantopotamus.Middlewares;
 using Restaurantopotamus.Web.Models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -43,7 +44,9 @@ namespace Restaurantopotamus.Controllers.api
             }
             catch (ArgumentException)
             {
-                return BadRequest($"Username {user.UserName} is already in use, please try another name");
+                var errors = new Dictionary<string, string>();
+                errors.Add("error", $"Username {user.UserName} is already in use, please try another name");
+                return BadRequest(errors);
             }
         }
     }

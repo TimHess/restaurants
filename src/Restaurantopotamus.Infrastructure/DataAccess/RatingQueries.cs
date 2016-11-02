@@ -8,28 +8,16 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
 {
     public class RatingQueries : IRatingQueries
     {
-        private readonly RestaurantContext queries;
+        private IDataQueries queries;
 
-        public RatingQueries(RestaurantContext context)
+        public RatingQueries(IDataQueries data)
         {
-            queries = context;
+            queries = data;
         }
 
         public async Task<RatingSummary> GetSummary(Guid RestaurantId)
         {
-            RatingSummary toReturn = new RatingSummary { RestaurantId = RestaurantId };
-            var ratings = queries.Ratings.Where(r => r.RestaurantId == RestaurantId);
-            toReturn.NumberOfRatings = ratings.Count();
-            if (toReturn.NumberOfRatings != 0)
-            {
-                toReturn.AverageRating = ratings.Average(r => r.Value);
-            }
-            else
-            {
-                toReturn.AverageRating = 0;
-            }
-
-            return await Task.FromResult(toReturn);
+            return await queries.GetRatingSummaryAsync(RestaurantId);
         }
     }
 }

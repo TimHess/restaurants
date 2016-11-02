@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Restaurantopotamus.Core.Interfaces;
 using Restaurantopotamus.Infrastructure.DataAccess;
+using Restaurantopotamus.Infrastructure.DataAccess.EF;
 using Restaurantopotamus.Middlewares;
 using Restaurantopotamus.Web.Models;
 using System;
@@ -41,6 +42,8 @@ namespace Restaurantopotamus
             services.AddMvc();
 
             // Add application services.
+            services.AddScoped<IDataCommands, EFCommandWrapper>();
+            services.AddScoped<IDataQueries, EFQueryWrapper>();
             services.AddScoped<RestaurantContext>(_ => new RestaurantContext(Configuration.GetConnectionString("Restaurants")));
             services.AddTransient<IRatingCommands, RatingCommands>();
             services.AddTransient<IRatingQueries, RatingQueries>();
