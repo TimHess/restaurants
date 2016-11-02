@@ -2,6 +2,7 @@
 using Restaurantopotamus.Core.Models;
 using System;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Restaurantopotamus.Infrastructure.DataAccess
@@ -30,7 +31,16 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
             }
             catch (Exception ex)
             {
-                SqlException innerException = ex.InnerException.InnerException as SqlException;
+                SqlException innerException = null;
+                try
+                {
+                    innerException = ex.InnerException.InnerException as SqlException;
+                }
+                catch (Exception e)
+                {
+                    Trace.TraceError("Non-sql error message encountered while registering: {0}", e.ToString());
+                }
+
                 if (innerException != null && (innerException.Number == 2627 || innerException.Number == 2601))
                 {
                     throw new ArgumentException("Username already in use");

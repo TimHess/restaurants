@@ -1,4 +1,5 @@
-﻿using Restaurantopotamus.Core.Models;
+﻿using Restaurantopotamus.Core.Helpers;
+using Restaurantopotamus.Core.Models;
 using System;
 using System.Data.Entity;
 using System.Threading.Tasks;
@@ -19,13 +20,13 @@ namespace Restaurantopotamus.Infrastructure.DataAccess.EF
             switch (toAdd.GetType().Name)
             {
                 case "Rating":
-                    context.Ratings.Add(ConvertValue<Rating>(toAdd));
+                    context.Ratings.Add(DynamicTyping.ConvertValue<Rating>(toAdd));
                     break;
                 case "Restaurant":
-                    context.Restaurants.Add(ConvertValue<Restaurant>(toAdd));
+                    context.Restaurants.Add(DynamicTyping.ConvertValue<Restaurant>(toAdd));
                     break;
                 case "AppUser":
-                    context.Users.Add(ConvertValue<AppUser>(toAdd));
+                    context.Users.Add(DynamicTyping.ConvertValue<AppUser>(toAdd));
                     break;
             }
             await context.SaveChangesAsync();
@@ -37,7 +38,7 @@ namespace Restaurantopotamus.Infrastructure.DataAccess.EF
             switch (toRemove.GetType().Name)
             {
                 case "Restaurant":
-                    var typedUpdate = ConvertValue<Restaurant>(toRemove);
+                    var typedUpdate = DynamicTyping.ConvertValue<Restaurant>(toRemove);
                     var existing = await context.Restaurants.FindAsync(typedUpdate.Id);
                     existing.Archived = true;
                     context.Restaurants.Attach(existing);
@@ -54,7 +55,7 @@ namespace Restaurantopotamus.Infrastructure.DataAccess.EF
             switch (toUpdate.GetType().Name)
             {
                 case "Restaurant":
-                    var typedUpdate = ConvertValue<Restaurant>(toUpdate);
+                    var typedUpdate = DynamicTyping.ConvertValue<Restaurant>(toUpdate);
                     context.Restaurants.Attach(typedUpdate);
                     context.Entry(typedUpdate).State = EntityState.Modified;
                     break;
@@ -63,11 +64,6 @@ namespace Restaurantopotamus.Infrastructure.DataAccess.EF
             }
             await context.SaveChangesAsync();
             return toUpdate;
-        }
-
-        private T ConvertValue<T>(object value)
-        {
-            return (T)Convert.ChangeType(value, typeof(T));
         }
     }
 }

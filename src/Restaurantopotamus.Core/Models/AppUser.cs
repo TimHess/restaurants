@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurantopotamus.Core.Models
 {
+    [BsonIgnoreExtraElements]
     public class AppUser
     {
         [Key]

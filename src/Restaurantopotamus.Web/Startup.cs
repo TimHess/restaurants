@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Restaurantopotamus.Core.Interfaces;
 using Restaurantopotamus.Infrastructure.DataAccess;
 using Restaurantopotamus.Infrastructure.DataAccess.EF;
+using Restaurantopotamus.Infrastructure.DataAccess.Mongo;
 using Restaurantopotamus.Middlewares;
 using Restaurantopotamus.Web.Models;
 using System;
@@ -42,9 +43,20 @@ namespace Restaurantopotamus
             services.AddMvc();
 
             // Add application services.
-            services.AddScoped<IDataCommands, EFCommandWrapper>();
-            services.AddScoped<IDataQueries, EFQueryWrapper>();
-            services.AddScoped<RestaurantContext>(_ => new RestaurantContext(Configuration.GetConnectionString("Restaurants")));
+            string dbType = (string)Configuration.GetValue(typeof(string), "DbType");
+            switch (dbType)
+            {
+                case "sql":
+                    services.AddScoped<IDataCommands, EFCommandWrapper>();
+                    services.AddScoped<IDataQueries, EFQueryWrapper>();
+                    services.AddScoped<RestaurantContext>(_ => new RestaurantContext(Configuration.GetConnectionString("Restaurants-sql")));
+                    break;
+                case "mongo":
+                    services.AddScoped<IDataCommands>(_ => new MongoCommandWrapper(Configuration.GetConnectionString("Restaurants-mongo")));
+                    services.AddScoped<IDataQueries>(_ => new MongoQueryWrapper(Configuration.GetConnectionString("Restaurants-mongo")));
+                    break;
+            }
+
             services.AddTransient<IRatingCommands, RatingCommands>();
             services.AddTransient<IRatingQueries, RatingQueries>();
             services.AddTransient<IRestaurantCommands, RestaurantCommands>();
