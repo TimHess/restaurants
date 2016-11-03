@@ -29,8 +29,7 @@ function AuthController($scope, $http, $rootScope) {
         console.log('getting a token');
         $http.post('/token', "username=" + encodeURIComponent(user.name) + "&password=" + encodeURIComponent(user.password), { headers: { "Content-Type": "application/x-www-form-urlencoded" } })
             .success(function (response) {
-                user.token = response.access_token;
-                sessionStorage.setItem('user', JSON.stringify(user));
+                sessionStorage.setItem('user', JSON.stringify({ "name": user.name, "token": response.access_token }));
                 $scope.authenticated = true;
             }).error(function(response) {
                 alert(response);
@@ -59,8 +58,7 @@ function AuthController($scope, $http, $rootScope) {
         console.log('registering');
         $http.post('/api/auth/register', { "username": user.name, "password": user.password })
             .then(function successCallback(response) {
-                user.token = response.access_token;
-                sessionStorage.setItem('user', JSON.stringify(user));
+                sessionStorage.setItem('user', JSON.stringify({ "name": user.name, "token": response.access_token }));
                 $scope.authenticated = true;
             }, function errorCallback(response) {
                 alert(response.data.error);

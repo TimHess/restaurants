@@ -13,7 +13,7 @@ namespace Restaurantopotamus.Core.Interfaces
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        Task<Restaurant> Get(Guid Id);
+        Task<Restaurant> Get(string Id);
 
         /// <summary>
         /// Get all ACTIVE restaurants ----------- TODO: needs partitioning and/or paging scheme

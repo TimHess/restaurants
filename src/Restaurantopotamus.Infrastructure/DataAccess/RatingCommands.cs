@@ -14,7 +14,7 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
             commands = data;
         }
 
-        public async Task AddRating(Guid RestaurantId, int RatingValue)
+        public async Task AddRating(string RestaurantId, int RatingValue)
         {
             await commands.Add<Rating>(new Rating { RestaurantId = RestaurantId, Value = RatingValue });
         }

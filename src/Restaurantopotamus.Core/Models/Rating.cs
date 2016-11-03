@@ -1,6 +1,6 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,16 +12,17 @@ namespace Restaurantopotamus.Core.Models
         /// <summary>
         /// Primary key in database
         /// </summary>
+        [BsonRepresentation(BsonType.ObjectId)]
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [JsonIgnore]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// What is the Id of the restaurant
         /// </summary>
         [Required]
-        public Guid RestaurantId { get; set; }
+        public string RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
 

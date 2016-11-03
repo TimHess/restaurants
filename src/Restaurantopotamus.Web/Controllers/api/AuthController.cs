@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Restaurantopotamus.Core.Interfaces;
 using Restaurantopotamus.Core.Models;
 using Restaurantopotamus.Middlewares;
@@ -7,6 +7,7 @@ using Restaurantopotamus.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Restaurantopotamus.Controllers.api
@@ -19,11 +20,20 @@ namespace Restaurantopotamus.Controllers.api
         private IUserCommands commands;
         private TokenProviderOptions options;
 
-        public AuthController(IUserQueries queries, IUserCommands commands, IOptions<TokenProviderOptions> options)
+        public AuthController(IUserQueries queries, IUserCommands commands)
         {
             this.queries = queries;
             this.commands = commands;
-            this.options = options.Value;
+
+            // gross hack
+            var secretKey = "Restaurantoppatomus!123";
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+            options = new TokenProviderOptions
+            {
+                Audience = "TheWorld",
+                Issuer = "Restaurantoppotamus",
+                SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256),
+            };
         }
 
         [HttpPost]

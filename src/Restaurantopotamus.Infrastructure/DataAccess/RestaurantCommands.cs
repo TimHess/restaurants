@@ -19,7 +19,7 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
             return await commands.Add(toAdd);
         }
 
-        public async Task DeleteRestaurant(Guid resId)
+        public async Task DeleteRestaurant(string resId)
         {
             await commands.Remove(new Restaurant { Id = resId });
         }

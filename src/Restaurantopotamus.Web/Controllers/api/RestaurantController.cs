@@ -42,7 +42,7 @@ namespace Restaurantopotamus.Controllers.api
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}", Name = "GetSingle")]
-        public async Task<Restaurant> Get(Guid id)
+        public async Task<Restaurant> Get(string id)
         {
             return await restaurantQueries.Get(id);
         }
@@ -127,7 +127,7 @@ namespace Restaurantopotamus.Controllers.api
         /// <returns></returns>
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
             try
             {

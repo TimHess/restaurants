@@ -7,7 +7,7 @@ namespace Restaurantopotamus.Core.Models
         /// <summary>
         /// What's the Id of the restaurant
         /// </summary>
-        public Guid RestaurantId { get; set; }
+        public string RestaurantId { get; set; }
 
         /// <summary>
         /// What is the average of all ratings for this restaurant

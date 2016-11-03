@@ -11,6 +11,6 @@ namespace Restaurantopotamus.Core.Interfaces
         /// </summary>
         /// <param name="RestaurantId"></param>
         /// <returns></returns>
-        Task<RatingSummary> GetSummary(Guid RestaurantId);
+        Task<RatingSummary> GetSummary(string RestaurantId);
     }
 }

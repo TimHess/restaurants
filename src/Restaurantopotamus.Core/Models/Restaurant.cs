@@ -1,6 +1,6 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,9 +11,10 @@ namespace Restaurantopotamus.Core.Models
     [BsonIgnoreExtraElements]
     public class Restaurant
     {
+        [BsonRepresentation(BsonType.ObjectId)]
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Id { get; set; }
 
         /// <summary>
         /// What is the establishment named
@@ -42,7 +43,9 @@ namespace Restaurantopotamus.Core.Models
         [NotMapped]
         public double AverageRating
         {
-            get { return Ratings != null && Ratings?.Count > 0 ? Ratings.Average(r => r.Value) : 0; }
+            get {
+                return Ratings != null && Ratings?.Count > 0 ? Ratings.Average(r => r.Value) : 0;
+            }
         }
 
         /// <summary>

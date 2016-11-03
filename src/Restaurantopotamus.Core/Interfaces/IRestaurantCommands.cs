@@ -25,6 +25,6 @@ namespace Restaurantopotamus.Core.Interfaces
         /// </summary>
         /// <param name="toDelete"></param>
         /// <returns></returns>
-        Task DeleteRestaurant(Guid toDelete);
+        Task DeleteRestaurant(string toDelete);
     }
 }

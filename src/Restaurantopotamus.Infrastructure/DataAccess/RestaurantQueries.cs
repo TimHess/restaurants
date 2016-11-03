@@ -17,7 +17,7 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
             queries = context;
         }
 
-        public async Task<Restaurant> Get(Guid Id)
+        public async Task<Restaurant> Get(string Id)
         {
             return await Task.FromResult(queries.Restaurants.Where(x => !x.Archived).FirstOrDefault(x => x.Id == Id));
         }

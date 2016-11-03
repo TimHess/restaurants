@@ -29,7 +29,7 @@ namespace Restaurantopotamus.Infrastructure.DataAccess.EF
             return await context.Users.FindAsync(Username);
         }
 
-        public async Task<RatingSummary> GetRatingSummaryAsync(Guid RestaurantId)
+        public async Task<RatingSummary> GetRatingSummaryAsync(string RestaurantId)
         {
             RatingSummary toReturn = new RatingSummary { RestaurantId = RestaurantId };
             var ratings = context.Ratings.Where(r => r.RestaurantId == RestaurantId);

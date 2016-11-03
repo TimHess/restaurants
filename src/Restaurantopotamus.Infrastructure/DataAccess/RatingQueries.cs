@@ -15,7 +15,7 @@ namespace Restaurantopotamus.Infrastructure.DataAccess
             queries = data;
         }
 
-        public async Task<RatingSummary> GetSummary(Guid RestaurantId)
+        public async Task<RatingSummary> GetSummary(string RestaurantId)
         {
             return await queries.GetRatingSummaryAsync(RestaurantId);
         }

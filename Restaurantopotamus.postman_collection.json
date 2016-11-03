@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "Auth",
+			"name": "1 - Auth",
 			"description": "",
 			"item": [
 				{
@@ -19,6 +19,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": "tests[\"Status code is 201\"] = responseCode.code === 201;\n\nvar jsonData = JSON.parse(responseBody);\npostman.setGlobalVariable(\"restAuthKey\", jsonData.access_token);"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": "var RandomName = \"Random\" + Math.floor(Math.random() * 1000);\npostman.setGlobalVariable(\"Username\", RandomName);"
 							}
 						}
 					],
@@ -34,7 +41,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"UserName\":\"user2\",\n\t\"Password\":\"pass\"\n}"
+							"raw": "{\n  \"UserName\":\"{{Username}}\",\n  \"Password\":\"pass\"\n}"
 						},
 						"description": ""
 					},
@@ -47,7 +54,7 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "\nvar jsonData = JSON.parse(responseBody);\npostman.setGlobalVariable(\"restAuthKey\", jsonData.access_token);"
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\nvar jsonData = JSON.parse(responseBody);\npostman.setGlobalVariable(\"restAuthKey\", jsonData.access_token);\n\n"
 							}
 						}
 					],
@@ -66,7 +73,7 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "user1",
+									"value": "{{Username}}",
 									"type": "text",
 									"enabled": true
 								},
@@ -85,69 +92,20 @@
 			]
 		},
 		{
-			"name": "Rating",
-			"description": "",
-			"item": [
-				{
-					"name": "Add a Rating",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": "tests[\"Status code is 201\"] = responseCode.code === 201;"
-							}
-						}
-					],
-					"request": {
-						"url": "http://localhost:5000/api/rating",
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"value\":2,\n  \"restaurantId\":\"{{RestaurantId}}\"\n}"
-						},
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "Get Rating Summary",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Body includes an average rating\"] = responseBody.has(\"averageRating\");\ntests[\"Body includes a number of ratings\"] = responseBody.has(\"numberOfRatings\");"
-							}
-						}
-					],
-					"request": {
-						"url": "http://localhost:5000/api/rating/0c58e752-ee11-4ee9-b30a-0509a21d55f",
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
-						"description": ""
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Restaurants",
+			"name": "2 - Restaurants",
 			"description": "",
 			"item": [
 				{
 					"name": "Get all Restaurants",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;"
+							}
+						}
+					],
 					"request": {
 						"url": "http://localhost:5000/api/Restaurant",
 						"method": "GET",
@@ -167,14 +125,14 @@
 							"listen": "test",
 							"script": {
 								"type": "text/javascript",
-								"exec": "tests[\"Status code is 201\"] = responseCode.code === 201;\n\npostman.setGlobalVariable(\"RestaurantId\", JSON.parse(responseBody).id);"
+								"exec": "tests[\"Status code is 201\"] = responseCode.code === 201;\n\nvar jsonData = JSON.parse(responseBody);\npostman.setGlobalVariable(\"RestaurantId\", JSON.parse(responseBody).id);"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"type": "text/javascript",
-								"exec": "var RandomName = \"Random Restaurant - \" + Math.floor(Math.random() * 100);\npostman.setGlobalVariable(\"RestaurantName\", RandomName);"
+								"exec": "var RandomName = \"Random Restaurant - \" + Math.floor(Math.random() * 500);\npostman.setGlobalVariable(\"RestaurantName\", RandomName);"
 							}
 						}
 					],
@@ -294,6 +252,15 @@
 				},
 				{
 					"name": "Delete a Restaurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 204\"] = responseCode.code === 204;"
+							}
+						}
+					],
 					"request": {
 						"url": "http://localhost:5000/api/Restaurant/{{RestaurantId}}",
 						"method": "DELETE",
@@ -304,6 +271,64 @@
 								"description": ""
 							}
 						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3 - Rating",
+			"description": "",
+			"item": [
+				{
+					"name": "Add a Rating",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 201\"] = responseCode.code === 201;"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/api/rating",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\":2,\n  \"restaurantId\":\"{{RestaurantId}}\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rating Summary",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": "tests[\"Status code is 200\"] = responseCode.code === 200;\n\ntests[\"Body includes an average rating\"] = responseBody.has(\"averageRating\");\ntests[\"Body includes a number of ratings\"] = responseBody.has(\"numberOfRatings\");"
+							}
+						}
+					],
+					"request": {
+						"url": "http://localhost:5000/api/rating/{{RestaurantId}}",
+						"method": "GET",
+						"header": [],
 						"body": {
 							"mode": "formdata",
 							"formdata": []

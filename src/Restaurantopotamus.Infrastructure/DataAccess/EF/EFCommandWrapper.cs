@@ -20,10 +20,14 @@ namespace Restaurantopotamus.Infrastructure.DataAccess.EF
             switch (toAdd.GetType().Name)
             {
                 case "Rating":
-                    context.Ratings.Add(DynamicTyping.ConvertValue<Rating>(toAdd));
+                    var dbRat = DynamicTyping.ConvertValue<Rating>(toAdd);
+                    dbRat.Id = Guid.NewGuid().ToString();
+                    context.Ratings.Add(dbRat);
                     break;
                 case "Restaurant":
-                    context.Restaurants.Add(DynamicTyping.ConvertValue<Restaurant>(toAdd));
+                    var dbRes = DynamicTyping.ConvertValue<Restaurant>(toAdd);
+                    dbRes.Id = Guid.NewGuid().ToString();
+                    context.Restaurants.Add(dbRes);
                     break;
                 case "AppUser":
                     context.Users.Add(DynamicTyping.ConvertValue<AppUser>(toAdd));
